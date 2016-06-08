@@ -11,10 +11,13 @@ React-Legend is a small library designed to be used with React that will create 
 #####ActionTypes
 
 *What is an ActionType?*
+
 An ActionType is predefined logic designed to create reusable code models. Any Quest can then use that ActionType to fire logic.
 
 *How is an ActionType created?*
-Below is a sample ActionType that when called will `console.log` `"test"``.
+
+Below is a sample ActionType that when called will `console.log` `"test"`.
+
 ```
 //first argument is name, second argument is a callback that returns quest information and questData passed in from the Quest
 Legend.ActionType('test', function(quest, questData){
@@ -24,12 +27,14 @@ Legend.ActionType('test', function(quest, questData){
 ```
 
 *What is quest.next()?*
+
 The ActionType itself is actually automatically coated into a promise and will only finish and go onto the next action in the quest only when told to. Next() here tells Legend that its completed its action and its ready to move on to the next step. This is useful for any ajax calls that are made inside of an ActionType.
 
-`quest.next()`` is an alias of `quest.updateStore()` which you can use to pass an object into to update the global store (see store section below).
+`quest.next()` is an alias of `quest.updateStore()` which you can use to pass an object into to update the global store (see store section below).
 
 #####Quests
 *What is a Quest?*
+
 A Quest is a method off of Legend that will decide what logic is needed to be used. These Quest's take an array of objects that have a `type` (See example below). Each object in this array is a action that takes place during the Quest. The ActionType (such as defined above) will decide how the first action reaches the second action.
 
 ```
@@ -53,12 +58,13 @@ var quest = Legend.NewQuest(
 
 #####Store
 *What is the Store?*
+
 The store is a object internal to Legend that holds any information you pass to it.
 This could be one of two ways:
 * using `Legend.UpdateStore({something: something})`.
 * using `quest.updateStore` or `quest.next()` will automatically update the store tells the quest to call the next action.
 
-*Notice `Legend.UpdateStore()` is capitalized to help you know which is which.*
+*Notice `Legend.UpdateStore()` is capitalized to help you know its a static function.*
 
 #####With React
 
@@ -133,6 +139,7 @@ ReactDOM.render( <App />, document.getElementById('app'));
 
 #####Misc
 *Should i use state?*
+
 Legend is designed to be used with stateless components using the legend store to keep track of all data.
 
 #####TODO:
