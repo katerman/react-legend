@@ -1,20 +1,20 @@
 ### React-legend
-*Questing now done in React*
+#####*Questing now done in React*
 ---
 
 #### What is React-Legend?
-React-Legend is a small library designed to be used with React that will create reusable peices of logic that fire when they're needed to.
+React-Legend is a small library designed to be used with React that will create reusable pieces of logic that fire when they're needed to.
 
 ####Legend Life Cycle
 ![alt text](https://raw.githubusercontent.com/katerman/react-legend/master/public/images/lifecycle.png "React-Legend lifecycle image")
 
-#####Actions
+#####ActionTypes
 
-*What is an Action?*
-An Action is method off of Legend designed to create reusable code model that Quests can then use to fire logic.
+*What is an ActionType?*
+An ActionType is predefined logic designed to create reusable code models. Any Quest can then use that ActionType to fire logic.
 
-*How is an Action created?*
-Below is a sample Action that when called will console.log `test`.
+*How is an ActionType created?*
+Below is a sample ActionType that when called will `console.log` `"test"``.
 ```
 //first argument is name, second argument is a callback that returns quest information and questData passed in from the Quest
 Legend.ActionType('test', function(quest, questData){
@@ -24,13 +24,13 @@ Legend.ActionType('test', function(quest, questData){
 ```
 
 *What is quest.next()?*
-The Action itself is actually automatically coated into a promise and will only finish and go onto the next action in the quest only when told to. Next() here tells Legend that its completed its action and its ready to move on to the next step. This is useful for any ajax calls that are made inside of an ActionType.
+The ActionType itself is actually automatically coated into a promise and will only finish and go onto the next action in the quest only when told to. Next() here tells Legend that its completed its action and its ready to move on to the next step. This is useful for any ajax calls that are made inside of an ActionType.
 
 `quest.next()`` is an alias of `quest.updateStore()` which you can use to pass an object into to update the global store (see store section below).
 
 #####Quests
 *What is a Quest?*
-A Quest is a method off of Legend that will decide what logic is needed to be used. These Quest's take an array of objects that have a `type` (See example below). Each object in this array is a Action that takes place during the Quest. The ActionType (such as defined above) will decide how the first action reaches the second action.
+A Quest is a method off of Legend that will decide what logic is needed to be used. These Quest's take an array of objects that have a `type` (See example below). Each object in this array is a action that takes place during the Quest. The ActionType (such as defined above) will decide how the first action reaches the second action.
 
 ```
 var quest = Legend.NewQuest(
