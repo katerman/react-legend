@@ -13,14 +13,25 @@ var Legend = function(){
 	 * @desc Takes the quest object and a current index. Used to return the promised needed to walk through each quest action.
 	 * @Argument obj (object) - object of all quest data
 	 * @Argument index(number) - number of current quest index in the above object.
+	 * @Argument data(any) - If you pass a second argument into Legend.Quest this is it. It will return this data in the ActionType creator.
 	 * @return promise
 	*/
-	_private.QuestStepIntoPromise = function(obj, index){
+	_private.QuestStepIntoPromise = function(obj, index, data){
 		var currentArray = obj[index];
 		return Q.promise(function(resolve, reject, notify){
+			var definedData = {actions: currentArray.action};
+
+			//good for passing back any defined data we need
+			if(typeof data !== 'undefined'){
+				definedData.data = data;
+			}
+			if(typeof _private.actions[currentArray.type] !== 'function'){
+				return console.error(currentArray.type, 'does not exist as an ActionType, define it.')
+			}
+
 			return _private.actions[currentArray.type].apply(currentArray, [
 				{next: resolve, updateStore: resolve, reject: reject, notify: notify},
-				{actions: currentArray.action}
+				definedData
 			]);
 		});
 	};
@@ -32,9 +43,9 @@ var Legend = function(){
 	 * @Argument maxKeys(number) - maximum amount of actions in the thisQuest array
 	 * @return function
 	*/
-	_private.QuestStepWalk = function(thisQuest, index, maxKeys){
+	_private.QuestStepWalk = function(thisQuest, index, maxKeys, data){
 
-		return QuestStepIntoPromise(thisQuest, index, maxKeys).done(function(doneData){
+		return QuestStepIntoPromise(thisQuest, index, data).done(function(doneData){
 
 			if(doneData && typeof doneData === 'object' && Object.keys(doneData).length > 0){
 				_public.UpdateStore(doneData);
@@ -47,7 +58,7 @@ var Legend = function(){
 				return typeof _private.doneCallbacks[name] === 'function' ? _private.doneCallbacks[name].call() : true;
 			} else if(index < maxKeys){
 				// recursively go through each quest step and wait for it to be done
-				return _private.QuestStepWalk(thisQuest, index, maxKeys);
+				return _private.QuestStepWalk(thisQuest, index, maxKeys, data);
 			}
 
 		});
@@ -85,27 +96,26 @@ var Legend = function(){
 	/* Quest Public Method
 	 * @desc Takes the quest name and walks the quest actions until completed or a failure (failure is thrown by ActionType).
 	 * @Argument name(string) - string matching the name of the quest you want to call.
+	 * @Argument data(any) - data to pass through to your ActionType very good for updating fields based on events.
 	 * @return function
 	*/
-	this.Quest = function(name){
+	this.Quest = function(name, data){
 		if(typeof _private.quests[name] === 'undefined'){
 			return console.error('Quest: ', name, ' is not defined.');
 		}
-		return function(){
 
-			var index = 0,
-				thisQuest = _private.quests[name]
-				questKeys = Object.keys(thisQuest),
-				maxKeys = questKeys.length,
-				QuestStepIntoPromise = _private.QuestStepIntoPromise;
+		var index = 0,
+			thisQuest = _private.quests[name]
+			questKeys = Object.keys(thisQuest),
+			maxKeys = questKeys.length,
+			QuestStepIntoPromise = _private.QuestStepIntoPromise;
 
-			if(questKeys.length > 0 ){
+		if(questKeys.length > 0 ){
 
-				_private.QuestStepWalk(thisQuest, index, maxKeys);
+			_private.QuestStepWalk(thisQuest, index, maxKeys, data);
 
-			}else{
-				console.warn('Your Quest: ', name, ' has no actions.')
-			}
+		}else{
+			console.warn('Your Quest: ', name, ' has no actions.')
 		}
 	}
 
@@ -127,6 +137,7 @@ var Legend = function(){
 		return _private.store;
 	}
 
+	this.private = _private;
 
 };
 

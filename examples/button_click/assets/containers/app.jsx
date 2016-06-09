@@ -2,7 +2,7 @@ var React = require('react');
 
 var Navbar = require('../components/_navbar.jsx');
 
-var Legend = require('../react-legend');
+var Legend = require('../../../../react-legend');
 
 var $ = window.jQuery; //for testing ajax
 
@@ -35,13 +35,11 @@ var App = React.createClass({
 		// test action type updates store
 		Legend.ActionType('test', function(quest, questData){
 			questData.actions[0].call();
-			//console.log('test arguments: ' , questData);
 			quest.updateStore({'test':'test'});
 		});
 
 		// date specific action type
 		Legend.ActionType('date', function(quest, questData){
-			//console.log('date type called');
 			quest.updateStore({'date': new Date().toString()});
 		});
 

@@ -6,7 +6,7 @@ var Navbar = function(props){
 		<nav className="navbar navbar-default">
 			<div className="container-fluid">
 				<div className="navbar-header">
-					<a className="navbar-brand" href="#">Brand</a>
+					<a className="navbar-brand" href="https://github.com/katerman/react-legend">React-Legend</a>
 				</div>
 			</div>
 		</nav>
