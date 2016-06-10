@@ -6,7 +6,7 @@
 React-Legend is a small library designed to be used with React that will create reusable pieces of logic that fire when they're needed to.
 
 ####Legend Life Cycle
-![alt text](https://raw.githubusercontent.com/katerman/react-legend/master/public/images/lifecycle.png "React-Legend lifecycle image")
+![alt text](https://raw.githubusercontent.com/katerman/react-legend/master/images/lifecycle.png "React-Legend lifecycle image")
 
 #####ActionTypes
 
