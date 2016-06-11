@@ -4,97 +4,31 @@ var Navbar = require('../components/_navbar.jsx');
 
 var Legend = require('../../../../react-legend');
 
+var ActionTypeCreators = require('../actions/todo-actions'); //set up all actions
+var Quests = require('../quests/quests')
+
 var App = React.createClass({
 	componentWillMount: function() {
-		// Set any initial store
+		// set up all our actions
+		ActionTypeCreators(this);
+		// Set any initial store values
 		Legend.UpdateStore({todos: [], inputText: ''});
 	},
-	componentDidMount: function() {
-		var _this = this;
-
-		// date specific action type
-		Legend.ActionType('addTodo', function(quest, questData){
-			var store = Legend.GetStore();
-			var newTodoArray = store.todos.concat({text: store.inputText, done: false});
-			quest.updateStore({
-				'todos': newTodoArray,
-				'inputText': ''
-			});
-		});
-
-		// an action type that re-renders the container
-		Legend.ActionType('render', function(quest, questData){
-			_this.forceUpdate(); // or setState({})
-			quest.next();
-		});
-
-		Legend.ActionType('updateInputText', function(quest, questData){
-			quest.updateStore({inputText: questData.data})
-		});
-
-		Legend.ActionType('crossOutTodo', function(quest, questData){
-			var store = Legend.GetStore();
-			var newTodoStore = store.todos.slice(0);
-			newTodoStore[questData.data].done = true;
-			quest.updateStore({todos: newTodoStore});
-		});
-
-	},
-
-	_addTodo: Legend.NewQuest(
-		{
-			name: 'addTodoQuest'
-		},
-		[
-			{
-				"type": "addTodo",
-			},
-			{
-				"type": "render"
-			}
-		]
-	),
-
-	_inputUpdate: Legend.NewQuest(
-		{
-			'name': 'inputUpdate'
-		},
-		[
-			{
-				"type": "updateInputText"
-			},
-			{
-				"type": "render"
-			}
-		]
-	),
-
-	_doneATodo: Legend.NewQuest(
-		{
-			'name': 'doneATodo'
-		},
-		[
-			{
-				"type": "crossOutTodo"
-			},
-			{
-				"type": "render"
-			}
-		]
-	),
-
 	_inputChange: function(e){
 		var value = typeof e.target.value !== 'undefined' ? e.target.value : '';
 		Legend.Quest('inputUpdate', value);
 	},
 	_onClickFireQuest: function(){
+		// fire addTodoQuest by its name
 		Legend.Quest('addTodoQuest');
 	},
 	_submitForm: function(e){
+		// fire addTodoQuest by its name
 		Legend.Quest('addTodoQuest');
-		e.preventDefault();
+		e.preventDefault(); //make sure the page doesn't submit
 	},
 	_doneATodo: function(index){
+		// fire doneATodo by its name
 		Legend.Quest('doneATodo', index);
 	},
 	render: function() {
@@ -104,6 +38,7 @@ var App = React.createClass({
 			<div>
 				<Navbar />
 				<div className="container">
+					<a href="../../index.html">{"< Examples"}</a>
 					<p>Todo App</p>
 
 					<ul>

@@ -4,8 +4,6 @@ var Navbar = require('../components/_navbar.jsx');
 
 var Legend = require('../../../../react-legend');
 
-var $ = window.jQuery; //for testing ajax
-
 var App = React.createClass({
 	componentWillMount: function() {
 		// Set any initial store
@@ -13,30 +11,6 @@ var App = React.createClass({
 	},
 	componentDidMount: function() {
 		var _this = this;
-
-		// A jQuery ajax specific actionType
-		Legend.ActionType('$ajax', function(quest, questData){
-			//console.log('$ajax arguments: ', arguments);
-			$.ajax({
-				'url': 'https://httpbin.org/get',
-				'method': 'get'
-			}).then(
-				function(data){
-					questData.actions[0](data);
-					quest.updateStore(data);
-				},
-				function(err){
-					questData.actions[1].call(err);
-					quest.reject(JSON.stringify(arguments));
-				}
-			)
-		});
-
-		// test action type updates store
-		Legend.ActionType('test', function(quest, questData){
-			questData.actions[0].call();
-			quest.updateStore({'test':'test'});
-		});
 
 		// date specific action type
 		Legend.ActionType('date', function(quest, questData){
@@ -51,35 +25,12 @@ var App = React.createClass({
 
 	},
 
-
-	// My Button quest, whenever i click on a button i want all the following actions to fire in order (and wait for the first to be done before moving on to the next)
+	// my button quest to update the date
 	_btnQuest: Legend.NewQuest(
 		{
 			name: 'buttonQuest',
-			done: function(){
-				console.log(Legend.GetStore());
-			}
 		},
 		[
-			{
-				"type": "$ajax",
-				"action": [
-					function(data){
-						console.log('data', data);
-					},
-					function(err, errt){
-						console.error('err', err);
-					}
-				]
-			},
-			{
-				"type": "test",
-				"action": [
-					function(){
-						console.log('test');
-					}
-				]
-			},
 			{
 				"type": "date"
 			},
@@ -88,23 +39,20 @@ var App = React.createClass({
 			}
 		]
 	),
+	_btnClick: function(){
+		Legend.Quest('buttonQuest');
+	},
 	render: function() {
-		console.log(Legend.GetStore());
-		var btnQuest = this._btnQuest;
+		var store = Legend.GetStore();
 		return (
 			<div>
 				<Navbar />
 				<div className="container">
-					<p>App</p>
-					<button onClick={Legend.Quest(btnQuest)}>Test</button>
+					<a href="../../index.html">{"< Examples"}</a>
+					<p>Button Click App</p>
+					<button onClick={this._btnClick}>Click Me</button>
 
-					<pre style={{whiteSpace: 'normal'}}>
-						{
-							JSON.stringify(Legend.GetStore())
-						}
-					</pre>
-
-					<p>Date: {Legend.GetStore().date}</p>
+					<p><strong>Date is:</strong> {Legend.GetStore().date}</p>
 				</div>
 			</div>
 		);

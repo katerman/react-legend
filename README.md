@@ -3,7 +3,7 @@
 ---
 
 #### What is React-Legend?
-React-Legend is a small library designed to be used with React that will create reusable pieces of logic that fire when they're needed to.
+React-Legend is a small library designed to be used with React. Legend is used to create reusable pieces of logic. That logic can then update a global store to update the rest of your React app.
 
 ####Legend Life Cycle
 ![alt text](https://raw.githubusercontent.com/katerman/react-legend/master/public/images/lifecycle.png "React-Legend lifecycle image")
@@ -16,7 +16,7 @@ An ActionType is predefined logic designed to create reusable code models. Any Q
 
 *How is an ActionType created?*
 
-Below is a sample ActionType that when called will `console.log` `"test"`.
+Below is a sample ActionType creator that when called will `console.log` "test".
 
 ```
 //first argument is name, second argument is a callback that returns quest information and questData passed in from the Quest
@@ -28,14 +28,16 @@ Legend.ActionType('test', function(quest, questData){
 
 *What is quest.next()?*
 
-The ActionType itself is actually automatically coated into a promise and will only finish and go onto the next action in the quest only when told to. Next() here tells Legend that its completed its action and its ready to move on to the next step. This is useful for any ajax calls that are made inside of an ActionType.
+`quest.next()` is an alias of `quest.updateStore()` you can use these to update the store by passing in an object (see store section below).
 
-`quest.next()` is an alias of `quest.updateStore()` which you can use to pass an object into to update the global store (see store section below).
+The ActionType itself is actually automatically coated into a promise. It will only finish and go onto the next action in the quest only when told to. Next() here tells Legend that its completed its action and its ready to move on to the next action. This is useful for any async calls that are made inside of an ActionType.
 
 #####Quests
 *What is a Quest?*
 
-A Quest is a method off of Legend that will decide what logic is needed to be used. These Quest's take an array of objects that have a `type` (See example below). Each object in this array is a action that takes place during the Quest. The ActionType (such as defined above) will decide how the first action reaches the second action.
+A Quest is a method of Legend that will decide what logic is needed to be used. These Quest's take an array of objects that have a `type` value. Each object in this array is a action that takes place during the Quest. The ActionType (such as defined above) will decide how the first action reaches the second action.
+
+Below is a sample quest creator.
 
 ```
 var quest = Legend.NewQuest(
@@ -142,6 +144,6 @@ ReactDOM.render( <App />, document.getElementById('app'));
 
 Legend is designed to be used with stateless components using the legend store to keep track of all data.
 
-#####TODO:
-* more examples (todo app)
-* more docs in general
+*I need some examples!*
+
+As of now there are only 2 examples. Button clicker and Todo which are both fairly basic but should help get the point across.

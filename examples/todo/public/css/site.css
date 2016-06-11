@@ -6,3 +6,11 @@ html, body {
 .strikeout {
 	text-decoration: line-through;
 }
+
+li {
+	padding: 5px 0;
+}
+
+li button {
+	margin-left: 10px;
+}

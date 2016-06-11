@@ -1,0 +1,20 @@
+html, body {
+	min-height: 100%;
+	height: 100%;
+}
+
+.ajax-loader {
+	background: url('../images/ajax-loader.gif');
+	width: 16px;
+	height: 16px;
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.hidden {
+	display: none;
+}
+
+pre {
+	white-space: normal;
+}
