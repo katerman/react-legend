@@ -146,4 +146,4 @@ Legend is designed to be used with stateless components using the legend store t
 
 *I need some examples!*
 
-As of now there are only 2 examples. Button clicker and Todo which are both fairly basic but should help get the point across.
+As of now there are only 3 examples. Button clicker, Todo, and async. These examples show a basic usage of react-legend.
