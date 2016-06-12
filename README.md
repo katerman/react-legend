@@ -78,14 +78,15 @@ var Legend = require('react-legend');
 var App = React.createClass({
 	componentWillMount: function() {
 		// Set any initial store for date
-		Legend.UpdateStore({date: new Date().toString()});
+		Legend.UpdateStore({number: 0});
 	},
 	componentDidMount: function() {
 		var _this = this;
 
-		// date specific action type
-		Legend.ActionType('date', function(quest, questData){
-			quest.updateStore({'date': new Date().toString()}); //or next()
+		// add one to our number
+		Legend.ActionType('addOne', function(quest, questData){
+			var store = Legend.GetStore();
+			quest.updateStore({number: store.number + 1}); //or next()
 		});
 
 		// an action type that re-renders the component
@@ -106,21 +107,24 @@ var App = React.createClass({
 		},
 		[
 			{
-				"type": "date"
+				"type": "addOne"
 			},
 			{
 				"type": "render"
 			}
 		]
 	),
+	_onClick: function(){
+		Legend.Quest('buttonQuest');
+		return false;
+	},
 	render: function() {
-		console.log(Legend.GetStore());
-		var btnQuest = this._btnQuest;
+		var store = Legend.GetStore();
 		return (
 			<div>
 				<p>Example Button App</p>
-				<button onClick={Legend.Quest(btnQuest)}>Test</button>
-				<p>Date: {Legend.GetStore().date}</p>
+				<button onClick={this._onClick}>Add One</button>
+				<p>Number:{store.number}</p>
 			</div>
 		);
 	}
@@ -130,13 +134,13 @@ ReactDOM.render( <App />, document.getElementById('app'));
 ```
 
 1. In the above example we're creating a react component called app.
-2. We then define our ActionTypes in `componentDidMount`. We have 2 one for re-rendering our component and one to update the global state to the current date.
-3. Next we set up our first quest inside the react component (not necessary, it could even be in its own file and required or imported).
-4. We call the quest _btnQuest its first argument will be a config object that as of now only takes 2 things. A name and a done callback.
-5. The next argument for _btnQuest is an array of specified actions. Each action is an object that only requires one thing a `type`. Anything else will be passed into the ActionType its defined to (this could be a callback, or any other data).
-6. In our render function we have a button with an onClick that calls our Quest (the quest variable can be passed in or its name).
-7. Whenever we click our button it starts its Quest starting with our date ActionType its job is to update the date value in the store.
-8. After the date has finished updating we tell our ActionType to move to the next action and the next one it will call will be render which will re-render the component.
+2. We then define our ActionTypes in `componentDidMount`. We have 2 one for re-rendering our component and one to update the global state to the add one to our number.
+3. Next we set up our first quest inside the react component (not necessary: it could even be in its own file and required or imported). Using `Legend.NewQuest()`;
+4. We call the quest 'buttonQuest' its first argument will be a config object that as of now only takes 2 things. A name and a done callback.
+5. The next argument for _btnQuest is an array of specified actions. Each action is an object that only requires one thing a `type`. Anything else will be passed into the ActionType creator its defined to (this could be a callback, or any other data).
+6. In our render function we have a button with an onClick that calls a funciton which calls our our Quest.
+7. Whenever we click our button it starts its Quest starting with our addOne ActionType its job is to add one to the number value in the store.
+8. After the number has finished updating we tell our ActionType to move to the next action. The next one it calls will be render which will re-render the component.
 
 
 #####Misc
