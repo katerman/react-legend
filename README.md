@@ -147,7 +147,10 @@ ReactDOM.render( <App />, document.getElementById('app'));
 *Should i use state?*
 
 Legend is designed to be used with stateless components using the legend store to keep track of all data.
+However if something doesn't need to be held globally state is fine to use.
 
 *I need some examples!*
 
-As of now there are only 3 examples. Button clicker, Todo, and async. These examples show a basic usage of react-legend.
+There are some examples in the example folder. These examples show a basic usage of react-legend.
+
+A real working app using React-legend can be found [here](https://github.com/katerman/clueless).
