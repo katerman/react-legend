@@ -1,6 +1,7 @@
 {
   "name": "react-legend",
   "version": "1.0.1",
+  "repository": "katerman/react-legend",
   "description": "reusable logic creator and global store for react",
   "main": "react-legend.js",
   "author": "Kevin Reynolds <katermanlw@gmail.com>",
