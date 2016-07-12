@@ -45,7 +45,7 @@ var Legend = function(){
 	*/
 	_private.QuestStepWalk = function(thisQuest, index, maxKeys, data){
 
-		return QuestStepIntoPromise(thisQuest, index, data).done(function(doneData){
+		return QuestStepIntoPromise(thisQuest, index, data).then(function(doneData){
 
 			if(doneData && typeof doneData === 'object' && Object.keys(doneData).length > 0){
 				_public.UpdateStore(doneData);
@@ -61,7 +61,10 @@ var Legend = function(){
 				return _private.QuestStepWalk(thisQuest, index, maxKeys, data);
 			}
 
-		});
+		}).catch(function(err){
+			// return any errors they pass into reject()
+			console.error(err);
+		}).done();
 
 	};
 

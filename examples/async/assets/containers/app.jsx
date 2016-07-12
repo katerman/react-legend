@@ -32,8 +32,10 @@ var App = React.createClass({
 						quest.updateStore(data);
 					},
 					function(err){
-						questData.actions[1].call(err);
-						quest.reject(JSON.stringify(arguments));
+						// use a callback specific in your quest step "action". Better for stack traces.
+						questData.actions[1](err);
+						//or use quest reject to return errors. Fine if you don't need a stack trace.
+						quest.reject(err);
 					}
 				)
 			}, 2500);
@@ -69,7 +71,7 @@ var App = React.createClass({
 					},
 					function(err){
 						// you could call it failed quest from here.
-						console.error('err', err);
+						console.error('err', arguments);
 					}
 				]
 			},
