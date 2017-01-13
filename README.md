@@ -153,4 +153,4 @@ However if something doesn't need to be held globally state is fine to use.
 
 There are some examples in the example folder. These examples show a basic usage of react-legend.
 
-A real working app using React-legend can be found [here](https://github.com/katerman/clueless).
+A real working app using React-legend can be found [here](https://github.com/katerman/clueless) and [here](https://github.com/katerman/customtrivia-legend).
